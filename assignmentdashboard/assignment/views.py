@@ -38,6 +38,12 @@ def get_courses(request, student_id):
 @permission_classes([IsAuthenticated])
 def get_assignments(request, student_id):
     student_courses = StudentCourse.objects.filter(student_id=student_id)
-    assignments = CourseAssignment.object.filter(course_id__in=student_courses)
-    serializer = StudentCourseSerializer(assignments, many=True)
+    student_course_list = list(student_courses)
+    student_course_id_list = []
+    for course in student_course_list:
+        student_course_id_list.append(course.course_id)
+
+    
+    assignments = CourseAssignment.objects.filter(course_id__in=student_course_id_list)
+    serializer = CourseAssignmentSerializer(assignments, many=True)
     return Response(serializer.data)
