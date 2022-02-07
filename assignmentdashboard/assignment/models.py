@@ -41,8 +41,8 @@ class StudentCourse(models.Model):
     student = models.ForeignKey(Student, on_delete=models.CASCADE, null=False,  default=None)
     course = models.ForeignKey(Course, on_delete=models.CASCADE, null=False,  default=None)
     
-    # def __str__(self):
-    #     return str(self.student.user.id) + str(self.course.course_name)
+    def __str__(self):
+        return str(self.student.user.id) + str(self.course.course_name)
 
 class EducatorCourse(models.Model):
     educator = models.ForeignKey(Educator, on_delete=models.CASCADE,  null=False,  default=None)

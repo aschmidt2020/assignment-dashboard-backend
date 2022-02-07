@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.decorators import api_view, permission_classes
 from .serializers import StudentSerializer, EducatorSerializer, CourseSerializer, AssignmentSerializer, StudentAssignmentSerializer, EducatorCourseSerializer, StudentCourseSerializer, CourseAssignmentSerializer
-from .serializers import CreateStudentCourseSerializer
+from .serializers import CreateStudentCourseSerializer, CreateStudentAssignmentSerializer
 from .models import Student, Educator, Course, Assignment, StudentAssignment, StudentCourse, EducatorCourse, CourseAssignment
 from django.contrib.auth.models import User
 from .serializers import UserSerializer
@@ -47,3 +47,20 @@ def get_assignments(request, student_id):
     assignments = CourseAssignment.objects.filter(course_id__in=student_course_id_list)
     serializer = CourseAssignmentSerializer(assignments, many=True)
     return Response(serializer.data)
+
+@api_view(['PUT'])
+@permission_classes([IsAuthenticated])
+def update_assignment_status(request, assignment_id):
+    try:
+        assignment = StudentAssignment.objects.get(assignment_id=assignment_id)
+        serializer = StudentAssignmentSerializer(assignment, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    except:
+        serializer = CreateStudentAssignmentSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
