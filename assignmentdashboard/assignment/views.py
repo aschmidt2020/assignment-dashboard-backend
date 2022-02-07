@@ -2,7 +2,7 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.decorators import api_view, permission_classes
-from .serializers import StudentSerializer, EducatorSerializer, CourseSerializer, AssignmentSerializer, StudentAssignmentSerializer, EducatorCourseSerializer, StudentCourseSerializer, CourseAssignmentSerializer
+from .serializers import CreateCourseAssignmentSerializer, CreateEducatorCourseSerializer, StudentSerializer, EducatorSerializer, CourseSerializer, AssignmentSerializer, StudentAssignmentSerializer, EducatorCourseSerializer, StudentCourseSerializer, CourseAssignmentSerializer
 from .serializers import CreateStudentCourseSerializer, CreateStudentAssignmentSerializer
 from .models import Student, Educator, Course, Assignment, StudentAssignment, StudentCourse, EducatorCourse, CourseAssignment
 from django.contrib.auth.models import User
@@ -17,6 +17,62 @@ def get_user(request, user_id):
     serializer = UserSerializer(user, many=False)
     return Response(serializer.data)
 
+#educator features
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def oversee_class(request):
+    serializer = CreateEducatorCourseSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['DELETE'])
+@permission_classes([IsAuthenticated])
+def remove_class(request, educator_id, course_id):
+    course = EducatorCourse.objects.filter(educator_id=educator_id, course_id=course_id )
+    serializer = EducatorCourseSerializer(course, many=False)
+    course.delete()
+    return Response(serializer.data, status=status.HTTP_204_NO_CONTENT)
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def add_assignment(request, course_id):
+    assignment_serializer = AssignmentSerializer(data=request.data)
+    if assignment_serializer.is_valid():
+        assignment_serializer.save()
+        #after created adds to course assignments
+        course_data = {
+            "course": course_id,
+            "assignment": assignment_serializer.instance.id
+        }
+        
+        serializer = CreateCourseAssignmentSerializer(data=course_data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(assignment_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    
+@api_view(['DELETE'])
+@permission_classes([IsAuthenticated])
+def delete_assignment(request, assignment_id):
+    assignment = Assignment.objects.get(id=assignment_id)
+    serializer = AssignmentSerializer(assignment, many=False)
+    assignment.delete()
+    return Response(serializer.data, status=status.HTTP_204_NO_CONTENT)
+
+@api_view(['PUT'])
+@permission_classes([IsAuthenticated])
+def update_assignment(request, assignment_id):
+    assignment = Assignment.objects.get(id=assignment_id)
+    serializer = AssignmentSerializer(assignment, data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+  
+    
 #student features
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
@@ -26,6 +82,14 @@ def register_class(request):
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['DELETE'])
+@permission_classes([IsAuthenticated])
+def unregister_class(request, student_id, course_id):
+    course = StudentCourse.objects.filter(student_id=student_id, course_id=course_id )
+    serializer = StudentCourseSerializer(course, many=False)
+    course.delete()
+    return Response(serializer.data, status=status.HTTP_204_NO_CONTENT)
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
