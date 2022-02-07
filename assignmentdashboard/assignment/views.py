@@ -17,6 +17,26 @@ def get_user(request, user_id):
     serializer = UserSerializer(user, many=False)
     return Response(serializer.data)
 
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_student(request, user_id):
+    try:
+        student = Student.objects.get(user_id=user_id)
+        serializer = StudentSerializer(student, many=False)
+        return Response(serializer.data)
+    except:
+        return Response('Please create profile.')
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_educator(request, user_id):
+    try:
+        educator = Educator.objects.get(user_id=user_id)
+        serializer = EducatorSerializer(educator, many=False)
+        return Response(serializer.data)
+    except:
+        return Response('Please create profile.')
+
 #educator features
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
