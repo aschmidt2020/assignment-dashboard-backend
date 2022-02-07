@@ -36,6 +36,13 @@ def get_courses(request, student_id):
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
+def get_assignments_one_course(request, course_id):
+    assignments = CourseAssignment.objects.filter(course_id=course_id)
+    serializer = CourseAssignmentSerializer(assignments, many=True)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def get_assignments(request, student_id):
     student_courses = StudentCourse.objects.filter(student_id=student_id)
     student_course_list = list(student_courses)
