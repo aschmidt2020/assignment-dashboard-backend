@@ -1,0 +1,574 @@
+{
+	"info": {
+		"_postman_id": "f23c4602-28c0-4221-b950-83daa7a6baef",
+		"name": "Assignment_Dashboard_API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "Register_User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \r\n\"email\": \"test2@gmail.com\",\r\n\"first_name\": \"Crookshanks\",\r\n\"last_name\": \"Granger\",\r\n\"password\": \"Test1234!\",\r\n\"username\": \"Crookshanks\",\r\n\"is_staff\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/auth/register/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"auth",
+								"register",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login_User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"Mrs_Granger\",\r\n    \"password\": \"Test1234!\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/auth/login/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"auth",
+								"login",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get_Student",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQ1MTI2Njg2LCJpYXQiOjE2NDQyNjI2ODYsImp0aSI6Ijk3Zjk0MTlkYmJiZjQyNTU4NzIwMTI1NThiNTUzOTE5IiwidXNlcl9pZCI6M30.V6wsW6GZaRYrHX3QfuOczto54iJ_acAgflqayrqYSs8",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/assignment/student/2/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"assignment",
+								"student",
+								"2",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get_Educator",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQ1MTI2Njg2LCJpYXQiOjE2NDQyNjI2ODYsImp0aSI6Ijk3Zjk0MTlkYmJiZjQyNTU4NzIwMTI1NThiNTUzOTE5IiwidXNlcl9pZCI6M30.V6wsW6GZaRYrHX3QfuOczto54iJ_acAgflqayrqYSs8",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/assignment/educator/3/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"assignment",
+								"educator",
+								"3",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Student",
+			"item": [
+				{
+					"name": "Register_Class",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQ1MTE0NjA4LCJpYXQiOjE2NDQyNTA2MDgsImp0aSI6IjdkYWExOGQ2MDQ3NjQ1NzU5NTBjYTU5ZGZiYzQxNWE5IiwidXNlcl9pZCI6Mn0.lshOti1gOq7vFqSKChwoU7_dZYj0DygSfXmTjkB9OGQ",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"student\": 1,\r\n    \"course\": 3\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/assignment/student/registerclass/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"assignment",
+								"student",
+								"registerclass",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get_Courses",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQ1MTE0NjA4LCJpYXQiOjE2NDQyNTA2MDgsImp0aSI6IjdkYWExOGQ2MDQ3NjQ1NzU5NTBjYTU5ZGZiYzQxNWE5IiwidXNlcl9pZCI6Mn0.lshOti1gOq7vFqSKChwoU7_dZYj0DygSfXmTjkB9OGQ",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/assignment/student/getcourses/1/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"assignment",
+								"student",
+								"getcourses",
+								"1",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get_Assignments_For_Courses",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQ1MTE0NjA4LCJpYXQiOjE2NDQyNTA2MDgsImp0aSI6IjdkYWExOGQ2MDQ3NjQ1NzU5NTBjYTU5ZGZiYzQxNWE5IiwidXNlcl9pZCI6Mn0.lshOti1gOq7vFqSKChwoU7_dZYj0DygSfXmTjkB9OGQ",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/assignment/student/getassignments/1/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"assignment",
+								"student",
+								"getassignments",
+								"1",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update_Assignment_Status",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQ1MTE0NjA4LCJpYXQiOjE2NDQyNTA2MDgsImp0aSI6IjdkYWExOGQ2MDQ3NjQ1NzU5NTBjYTU5ZGZiYzQxNWE5IiwidXNlcl9pZCI6Mn0.lshOti1gOq7vFqSKChwoU7_dZYj0DygSfXmTjkB9OGQ",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"assignment\": 1,\r\n    \"student\":1,\r\n    \"assignment_status\": \"Started\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/assignment/student/updateassignmentstatus/1/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"assignment",
+								"student",
+								"updateassignmentstatus",
+								"1",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get_Assignments_One_Course",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQ1MTE0NjA4LCJpYXQiOjE2NDQyNTA2MDgsImp0aSI6IjdkYWExOGQ2MDQ3NjQ1NzU5NTBjYTU5ZGZiYzQxNWE5IiwidXNlcl9pZCI6Mn0.lshOti1gOq7vFqSKChwoU7_dZYj0DygSfXmTjkB9OGQ",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/assignment/student/getassignments/course/1/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"assignment",
+								"student",
+								"getassignments",
+								"course",
+								"1",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Unenroll_Class",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQ1MTE0NjA4LCJpYXQiOjE2NDQyNTA2MDgsImp0aSI6IjdkYWExOGQ2MDQ3NjQ1NzU5NTBjYTU5ZGZiYzQxNWE5IiwidXNlcl9pZCI6Mn0.lshOti1gOq7vFqSKChwoU7_dZYj0DygSfXmTjkB9OGQ",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/assignment/student/unregisterclass/1/3/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"assignment",
+								"student",
+								"unregisterclass",
+								"1",
+								"3",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Educator",
+			"item": [
+				{
+					"name": "Add_Class",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQ1MTI2Njg2LCJpYXQiOjE2NDQyNjI2ODYsImp0aSI6Ijk3Zjk0MTlkYmJiZjQyNTU4NzIwMTI1NThiNTUzOTE5IiwidXNlcl9pZCI6M30.V6wsW6GZaRYrHX3QfuOczto54iJ_acAgflqayrqYSs8",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"educator\": 1,\r\n    \"course\": 3\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/assignment/educator/addclass/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"assignment",
+								"educator",
+								"addclass",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Remove_Class",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQ1MTI2Njg2LCJpYXQiOjE2NDQyNjI2ODYsImp0aSI6Ijk3Zjk0MTlkYmJiZjQyNTU4NzIwMTI1NThiNTUzOTE5IiwidXNlcl9pZCI6M30.V6wsW6GZaRYrHX3QfuOczto54iJ_acAgflqayrqYSs8",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"educator\": 1,\r\n    \"course\": 3\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/assignment/educator/removeclass/1/3/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"assignment",
+								"educator",
+								"removeclass",
+								"1",
+								"3",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add_Assignment",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQ1MTI2Njg2LCJpYXQiOjE2NDQyNjI2ODYsImp0aSI6Ijk3Zjk0MTlkYmJiZjQyNTU4NzIwMTI1NThiNTUzOTE5IiwidXNlcl9pZCI6M30.V6wsW6GZaRYrHX3QfuOczto54iJ_acAgflqayrqYSs8",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"assignment_name\": \"Test 3\",\r\n    \"assignment_desc\": \"Test\",\r\n    \"assignment_due_date\": \"2022-02-10\",\r\n    \"assignment_instructions\": \"Test\",\r\n    \"assignment_archived\": \"False\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/assignment/educator/addassignment/3/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"assignment",
+								"educator",
+								"addassignment",
+								"3",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete_Assignment",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQ1MTI2Njg2LCJpYXQiOjE2NDQyNjI2ODYsImp0aSI6Ijk3Zjk0MTlkYmJiZjQyNTU4NzIwMTI1NThiNTUzOTE5IiwidXNlcl9pZCI6M30.V6wsW6GZaRYrHX3QfuOczto54iJ_acAgflqayrqYSs8",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/assignment/educator/deleteassignment/6/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"assignment",
+								"educator",
+								"deleteassignment",
+								"6",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update_Assignment",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQ1MTI2Njg2LCJpYXQiOjE2NDQyNjI2ODYsImp0aSI6Ijk3Zjk0MTlkYmJiZjQyNTU4NzIwMTI1NThiNTUzOTE5IiwidXNlcl9pZCI6M30.V6wsW6GZaRYrHX3QfuOczto54iJ_acAgflqayrqYSs8",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"assignment_name\": \"Test 3 - UPDATED\",\r\n    \"assignment_desc\": \"Test\",\r\n    \"assignment_due_date\": \"2022-02-10\",\r\n    \"assignment_instructions\": \"Test\",\r\n    \"assignment_archived\": \"False\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/assignment/educator/updateassignment/9/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"assignment",
+								"educator",
+								"updateassignment",
+								"9",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
