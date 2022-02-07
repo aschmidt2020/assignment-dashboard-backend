@@ -1,4 +1,5 @@
-from dataclasses import field
+from dataclasses import field, fields
+from pickletools import read_floatnl
 from django.contrib.auth.models import User
 from rest_framework import serializers
 from .models import Student, Educator, Course, Assignment, StudentAssignment, StudentCourse, EducatorCourse, CourseAssignment
@@ -21,7 +22,7 @@ class EducatorSerializer(serializers.ModelSerializer):
         fields = '__all__'
         
 class CourseSerializer(serializers.ModelSerializer):
-       class Meta:
+    class Meta:
         model = Course
         fields = '__all__'
              
@@ -35,7 +36,7 @@ class StudentAssignmentSerializer(serializers.ModelSerializer):
     assignment = AssignmentSerializer(many=False, read_only=True)
     
     class Meta:
-        model: StudentAssignment
+        model = StudentAssignment
         fields = '__all__'
         
 class StudentCourseSerializer(serializers.ModelSerializer):
@@ -43,15 +44,23 @@ class StudentCourseSerializer(serializers.ModelSerializer):
     course = CourseSerializer(many=False, read_only=True)
     
     class Meta:
-        model: StudentCourse
+        model = StudentCourse
         fields = '__all__'
 
+class CreateStudentCourseSerializer(serializers.ModelSerializer):
+    student = serializers.PrimaryKeyRelatedField(queryset=Student.objects.all())
+    course = serializers.PrimaryKeyRelatedField(queryset=Course.objects.all())
+    
+    class Meta:
+        model = StudentCourse
+        fields = '__all__'
+        
 class EducatorCourseSerializer(serializers.ModelSerializer):
     educator = EducatorSerializer(many=False, read_only=True)
     course = CourseSerializer(many=False, read_only=True)
     
     class Meta:
-        model: EducatorCourse
+        model = EducatorCourse
         fields = '__all__'
 
 class CourseAssignmentSerializer(serializers.ModelSerializer):
@@ -59,5 +68,5 @@ class CourseAssignmentSerializer(serializers.ModelSerializer):
     assignment = AssignmentSerializer(many=False, read_only=True)
     
     class Meta:
-        model: CourseAssignment
+        model = CourseAssignment
         fields = '__all__'

@@ -41,25 +41,27 @@ class StudentCourse(models.Model):
     student = models.ForeignKey(Student, on_delete=models.CASCADE, null=False,  default=None)
     course = models.ForeignKey(Course, on_delete=models.CASCADE, null=False,  default=None)
     
-    def __str__(self):
-        return self.student.user.id + self.course.id
+    # def __str__(self):
+    #     return str(self.student.user.id) + str(self.course.course_name)
 
 class EducatorCourse(models.Model):
-    educator = models.ForeignKey(Educator, on_delete=models.CASCADE, null=False,  default=None)
-    course = models.ForeignKey(Course, on_delete=models.CASCADE, null=False,  default=None)
+    educator = models.ForeignKey(Educator, on_delete=models.CASCADE,  null=False,  default=None)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE,  null=False,  default=None)
 
     def __str__(self):
-        return self.educator.user.id + self.course.id
+        return str(self.educator.user.id) + str(self.course.course_name)
+    
 class CourseAssignment(models.Model):
-    course = models.ForeignKey(Course, on_delete=models.CASCADE, null=False,  default=None)
-    assignment = models.ForeignKey(Assignment, on_delete=models.CASCADE, null=False,  default=None)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE,  null=False,  default=None)
+    assignment = models.ForeignKey(Assignment, on_delete=models.CASCADE,  null=False,  default=None)
 
     def __str__(self):
-        return self.assignment.id + self.course.id
+        return str(self.assignment.assignment_name) + str(self.course.course_name)
+    
 class StudentAssignment(models.Model):
-    student = models.ForeignKey(Student, on_delete=models.CASCADE, null=False,  default=None)
-    assignment = models.ForeignKey(Assignment, on_delete=models.CASCADE, null=False,  default=None)
+    student = models.ForeignKey(Student, on_delete=models.CASCADE,  null=False,  default=None)
+    assignment = models.ForeignKey(Assignment, on_delete=models.CASCADE,  null=False,  default=None)
     assignment_status = models.CharField(max_length=50,  default=None)
     
     def __str__(self):
-        return self.assignment.id + self.student.user.id
+        return str(self.assignment.assignment_name) + str(self.student.user.id)
