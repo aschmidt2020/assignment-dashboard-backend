@@ -7,7 +7,7 @@ from .models import Student, Educator, Course, Assignment, StudentAssignment, St
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['id', 'username', 'first_name', 'last_name']
+        fields = ['id', 'username', 'first_name', 'last_name', 'is_staff']
 
 class StudentSerializer(serializers.ModelSerializer):
     user = UserSerializer(many=False, read_only=True)

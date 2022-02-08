@@ -38,6 +38,27 @@ def get_educator(request, user_id):
         return Response('Please create profile.')
 
 #educator features
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_assignments_educator(request, educator_id):
+    educator_courses = EducatorCourse.objects.filter(educator_id=educator_id)
+    educator_course_list = list(educator_courses)
+    educator_course_id_list = []
+    for course in educator_course_list:
+        educator_course_id_list.append(course.course_id)
+
+    
+    assignments = CourseAssignment.objects.filter(course_id__in=educator_course_id_list).order_by('assignment__assignment_due_date')
+    serializer = CourseAssignmentSerializer(assignments, many=True)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_courses_educator(request, educator_id):
+    educator_courses = EducatorCourse.objects.filter(educator_id=educator_id)
+    serializer = EducatorCourseSerializer(educator_courses, many=True)
+    return Response(serializer.data)
+
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def oversee_class(request):
