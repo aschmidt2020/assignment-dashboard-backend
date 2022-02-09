@@ -4,10 +4,11 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.decorators import api_view, permission_classes
 from .serializers import CreateEducatorCourseSerializer, StudentSerializer, EducatorSerializer, CourseSerializer, AssignmentSerializer, StudentAssignmentSerializer, EducatorCourseSerializer, StudentCourseSerializer
-from .serializers import CreateStudentCourseSerializer, CreateStudentAssignmentSerializer
+from .serializers import CreateAssignmentSerializer, CreateStudentCourseSerializer, CreateStudentAssignmentSerializer
 from .models import Student, Educator, Course, Assignment, StudentAssignment, StudentCourse, EducatorCourse
 from django.contrib.auth.models import User
 from .serializers import UserSerializer
+from django.db.models import Count
 
 # Create your views here.
 #get user info on login
@@ -81,6 +82,13 @@ def get_assignments_educator(request, educator_id):
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
+def get_assignment_status_educator(request):
+    assignments_status = StudentAssignment.objects.all()
+    serializer = StudentAssignmentSerializer(assignments_status, many=True)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def get_courses_educator(request, educator_id):
     educator_courses = EducatorCourse.objects.filter(educator_id=educator_id)
     serializer = EducatorCourseSerializer(educator_courses, many=True)
@@ -106,18 +114,9 @@ def remove_class(request, educator_id, course_id):
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def add_assignment(request, course_id):
-    assignment_serializer = AssignmentSerializer(data=request.data)
+    assignment_serializer = CreateAssignmentSerializer(data=request.data)
     if assignment_serializer.is_valid():
         assignment_serializer.save()
-        #after created adds to course assignments
-        # course_data = {
-        #     "course": course_id,
-        #     "assignment": assignment_serializer.instance.id
-        # }
-        
-        # serializer = CreateCourseAssignmentSerializer(data=course_data)
-        # if serializer.is_valid():
-        #     serializer.save()
         return Response(assignment_serializer.data, status=status.HTTP_201_CREATED)
     return Response(assignment_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -148,6 +147,11 @@ def register_class(request):
     serializer = CreateStudentCourseSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save()
+        
+        #update course info
+        course = Course.objects.get(id=request.data['course'])
+        course.number_of_students = len(StudentCourse.objects.filter(course_id=course.id))
+        course.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -157,6 +161,11 @@ def unregister_class(request, student_id, course_id):
     course = StudentCourse.objects.filter(student_id=student_id, course_id=course_id )
     serializer = StudentCourseSerializer(course, many=False)
     course.delete()
+    
+    #update course info
+    course_updated = Course.objects.get(id=course_id)
+    course_updated.number_of_students = len(StudentCourse.objects.filter(course_id=course_updated.id))
+    course_updated.save()
     return Response(serializer.data, status=status.HTTP_204_NO_CONTENT)
 
 @api_view(['GET'])
@@ -202,11 +211,40 @@ def update_assignment_status(request, assignment_id):
         serializer = StudentAssignmentSerializer(assignment, data=request.data)
         if serializer.is_valid():
             serializer.save()
+            
+            #update assignment 
+            assignment = Assignment.objects.get(id=assignment_id)
+            if request.data['assignment_status'] == 'Viewed':
+                assignment.students_viewed = assignment.students_viewed + 1
+            elif request.data['assignment_status'] == 'In Progress':
+                assignment.students_in_progress = assignment.students_in_progress + 1
+            elif request.data['assignment_status'] == 'Completed':
+                assignment.students_completed = assignment.students_completed + 1
+            
+            if request.data['assignment_prev_status'] == 'Viewed':
+                assignment.students_viewed = assignment.students_viewed - 1
+            elif request.data['assignment_prev_status'] == 'In Progress':
+                assignment.students_in_progress = assignment.students_in_progress - 1
+            elif request.data['assignment_prev_status'] == 'Completed':
+                assignment.students_completed = assignment.students_completed - 1
+            
+            assignment.save()
+            
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     except:
         serializer = CreateStudentAssignmentSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
+            
+            #update assignment 
+            assignment = Assignment.objects.get(id=assignment_id)
+            if request.data['assignment_status'] == 'Viewed':
+                assignment.students_viewed = assignment.students_viewed + 1
+            elif request.data['assignment_status'] == 'In Progress':
+                assignment.students_in_progress = assignment.students_in_progress + 1
+            elif request.data['assignment_status'] == 'Completed':
+                assignment.students_completed = assignment.students_completed + 1
+            
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

@@ -32,6 +32,13 @@ class AssignmentSerializer(serializers.ModelSerializer):
         model = Assignment
         fields = '__all__'
 
+
+class CreateAssignmentSerializer(serializers.ModelSerializer):
+    assignment_course = serializers.PrimaryKeyRelatedField(queryset=Course.objects.all())
+    class Meta:
+        model = Assignment
+        fields = '__all__'
+
 class StudentAssignmentSerializer(serializers.ModelSerializer):
     student = StudentSerializer(many=False, read_only=True)
     assignment = AssignmentSerializer(many=False, read_only=True)

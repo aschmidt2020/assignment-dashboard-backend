@@ -1,3 +1,4 @@
+from pyexpat import model
 from django.db import models
 from django.contrib.auth.models import User
 
@@ -21,6 +22,7 @@ class Course(models.Model):
     course_school_id = models.CharField(max_length=50,  default=None)
     course_name = models.CharField(max_length=50,  default=None)
     course_credits = models.IntegerField(default=0)
+    number_of_students = models.IntegerField(default=0)
     
     def __str__(self):
         return str(self.course_name)
@@ -31,7 +33,9 @@ class Assignment(models.Model):
     assignment_desc = models.CharField(max_length=50,  default=None)
     assignment_due_date = models.DateField(max_length=50,  default=None)
     assignment_instructions = models.TextField(default=None)
-    assignment_archived = models.BooleanField(default=False)
+    students_viewed = models.IntegerField(default=0)
+    students_in_progress = models.IntegerField(default=0)
+    students_completed = models.IntegerField(default=0)
     
     
     def __str__(self):
@@ -62,6 +66,7 @@ class EducatorCourse(models.Model):
 class StudentAssignment(models.Model):
     student = models.ForeignKey(Student, on_delete=models.CASCADE,  null=False,  default=None)
     assignment = models.ForeignKey(Assignment, on_delete=models.CASCADE,  null=False,  default=None)
+    assignment_prev_status = models.CharField(max_length=50,  default="Not Started")
     assignment_status = models.CharField(max_length=50,  default=None)
     
     def __str__(self):
