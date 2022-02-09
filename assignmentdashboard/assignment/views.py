@@ -2,9 +2,9 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.decorators import api_view, permission_classes
-from .serializers import CreateCourseAssignmentSerializer, CreateEducatorCourseSerializer, StudentSerializer, EducatorSerializer, CourseSerializer, AssignmentSerializer, StudentAssignmentSerializer, EducatorCourseSerializer, StudentCourseSerializer, CourseAssignmentSerializer
+from .serializers import CreateEducatorCourseSerializer, StudentSerializer, EducatorSerializer, CourseSerializer, AssignmentSerializer, StudentAssignmentSerializer, EducatorCourseSerializer, StudentCourseSerializer
 from .serializers import CreateStudentCourseSerializer, CreateStudentAssignmentSerializer
-from .models import Student, Educator, Course, Assignment, StudentAssignment, StudentCourse, EducatorCourse, CourseAssignment
+from .models import Student, Educator, Course, Assignment, StudentAssignment, StudentCourse, EducatorCourse
 from django.contrib.auth.models import User
 from .serializers import UserSerializer
 
@@ -37,6 +37,14 @@ def get_educator(request, user_id):
     except:
         return Response('Please create profile.')
 
+#both features
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_all_courses(request):
+    courses = Course.objects.all()
+    serializer = CourseSerializer(courses, many=True)
+    return Response(serializer.data)
+
 #educator features
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
@@ -48,8 +56,8 @@ def get_assignments_educator(request, educator_id):
         educator_course_id_list.append(course.course_id)
 
     
-    assignments = CourseAssignment.objects.filter(course_id__in=educator_course_id_list).order_by('assignment__assignment_due_date')
-    serializer = CourseAssignmentSerializer(assignments, many=True)
+    assignments = Assignment.objects.filter(assignment_course_id__in=educator_course_id_list).order_by('assignment_due_date')
+    serializer = AssignmentSerializer(assignments, many=True)
     return Response(serializer.data)
 
 @api_view(['GET'])
@@ -83,15 +91,15 @@ def add_assignment(request, course_id):
     if assignment_serializer.is_valid():
         assignment_serializer.save()
         #after created adds to course assignments
-        course_data = {
-            "course": course_id,
-            "assignment": assignment_serializer.instance.id
-        }
+        # course_data = {
+        #     "course": course_id,
+        #     "assignment": assignment_serializer.instance.id
+        # }
         
-        serializer = CreateCourseAssignmentSerializer(data=course_data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        # serializer = CreateCourseAssignmentSerializer(data=course_data)
+        # if serializer.is_valid():
+        #     serializer.save()
+        return Response(assignment_serializer.data, status=status.HTTP_201_CREATED)
     return Response(assignment_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     
@@ -142,8 +150,8 @@ def get_courses(request, student_id):
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def get_assignments_one_course(request, course_id):
-    assignments = CourseAssignment.objects.filter(course_id=course_id)
-    serializer = CourseAssignmentSerializer(assignments, many=True)
+    assignments = Assignment.objects.filter(assignment_course_id=course_id)
+    serializer = AssignmentSerializer(assignments, many=True)
     return Response(serializer.data)
 
 @api_view(['GET'])
@@ -156,8 +164,15 @@ def get_assignments(request, student_id):
         student_course_id_list.append(course.course_id)
 
     
-    assignments = CourseAssignment.objects.filter(course_id__in=student_course_id_list)
-    serializer = CourseAssignmentSerializer(assignments, many=True)
+    assignments = Assignment.objects.filter(assignment_course_id__in=student_course_id_list).order_by('assignment_due_date')
+    serializer = AssignmentSerializer(assignments, many=True)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_assignment_status(request, student_id):
+    student_status = StudentAssignment.objects.filter(student_id=student_id)
+    serializer = StudentAssignmentSerializer(student_status, many=True)
     return Response(serializer.data)
 
 @api_view(['PUT'])

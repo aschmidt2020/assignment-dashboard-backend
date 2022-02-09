@@ -26,10 +26,11 @@ class Course(models.Model):
         return str(self.course_name)
 
 class Assignment(models.Model):
+    assignment_course = models.ForeignKey(Course, on_delete=models.CASCADE, null=False, default=None)
     assignment_name = models.CharField(max_length=50,  default=None)
     assignment_desc = models.CharField(max_length=50,  default=None)
     assignment_due_date = models.DateField(max_length=50,  default=None)
-    assignment_instructions = models.CharField(max_length=50,  default=None)
+    assignment_instructions = models.TextField(default=None)
     assignment_archived = models.BooleanField(default=False)
     
     
@@ -51,12 +52,12 @@ class EducatorCourse(models.Model):
     def __str__(self):
         return str(self.educator.user.id) + str(self.course.course_name)
     
-class CourseAssignment(models.Model):
-    course = models.ForeignKey(Course, on_delete=models.CASCADE,  null=False,  default=None)
-    assignment = models.ForeignKey(Assignment, on_delete=models.CASCADE,  null=False,  default=None)
+# class CourseAssignment(models.Model):
+#     course = models.ForeignKey(Course, on_delete=models.CASCADE,  null=False,  default=None)
+#     assignment = models.ForeignKey(Assignment, on_delete=models.CASCADE,  null=False,  default=None)
 
-    def __str__(self):
-        return str(self.assignment.assignment_name) + str(self.course.course_name)
+#     def __str__(self):
+#         return str(self.assignment.assignment_name) + str(self.course.course_name)
     
 class StudentAssignment(models.Model):
     student = models.ForeignKey(Student, on_delete=models.CASCADE,  null=False,  default=None)
