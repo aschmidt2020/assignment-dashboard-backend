@@ -5,6 +5,8 @@ urlpatterns = [
     path('user/user_id/<int:user_id>/', views.get_user),
     path('student/user_id/<int:user_id>/', views.get_student),
     path('educator/user_id/<int:user_id>/', views.get_educator),
+    path('student/register/', views.register_student),
+    path('educator/register/', views.register_educator),
     path('getcourses/', views.get_all_courses),
     path('student/registerclass/', views.register_class),
     path('student/unregisterclass/student_id/<int:student_id>/course_id/<int:course_id>/', views.unregister_class),

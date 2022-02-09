@@ -1,3 +1,4 @@
+from contextlib import nullcontext
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, AllowAny
@@ -25,7 +26,7 @@ def get_student(request, user_id):
         serializer = StudentSerializer(student, many=False)
         return Response(serializer.data)
     except:
-        return Response('Please create profile.')
+        print('Please create profile')
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
@@ -35,7 +36,25 @@ def get_educator(request, user_id):
         serializer = EducatorSerializer(educator, many=False)
         return Response(serializer.data)
     except:
-        return Response('Please create profile.')
+        print('Please create profile')
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def register_student(request):
+    serializer = StudentSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save(user=request.user)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def register_educator(request):
+    serializer = EducatorSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save(user=request.user)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 #both features
 @api_view(['GET'])
