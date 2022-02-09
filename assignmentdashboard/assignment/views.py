@@ -245,6 +245,7 @@ def update_assignment_status(request, assignment_id):
                 assignment.students_in_progress = assignment.students_in_progress + 1
             elif request.data['assignment_status'] == 'Completed':
                 assignment.students_completed = assignment.students_completed + 1
+            assignment.save()
             
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
