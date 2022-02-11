@@ -3,7 +3,6 @@ from django.db import models
 from django.contrib.auth.models import User
 
 # single models
-
 class Student(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=False,  default=None)
     school_id = models.IntegerField(default=0)
@@ -36,7 +35,7 @@ class Assignment(models.Model):
     students_viewed = models.IntegerField(default=0)
     students_in_progress = models.IntegerField(default=0)
     students_completed = models.IntegerField(default=0)
-    upload_to_folder_id = models.CharField(max_length=50, default=None)
+    upload_to_folder_id = models.CharField(max_length=50, default=None, null=True)
     
     def __str__(self):
         return str(self.assignment_name)
@@ -55,13 +54,6 @@ class EducatorCourse(models.Model):
 
     def __str__(self):
         return str(self.educator.user.id) + str(self.course.course_name)
-    
-# class CourseAssignment(models.Model):
-#     course = models.ForeignKey(Course, on_delete=models.CASCADE,  null=False,  default=None)
-#     assignment = models.ForeignKey(Assignment, on_delete=models.CASCADE,  null=False,  default=None)
-
-#     def __str__(self):
-#         return str(self.assignment.assignment_name) + str(self.course.course_name)
     
 class StudentAssignment(models.Model):
     student = models.ForeignKey(Student, on_delete=models.CASCADE,  null=False,  default=None)

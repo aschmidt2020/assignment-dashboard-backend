@@ -86,18 +86,3 @@ class CreateEducatorCourseSerializer(serializers.ModelSerializer):
     class Meta:
         model = EducatorCourse
         fields = '__all__'
-# class CourseAssignmentSerializer(serializers.ModelSerializer):
-#     course = CourseSerializer(many=False, read_only=True)
-#     assignment = AssignmentSerializer(many=False, read_only=True)
-    
-#     class Meta:
-#         model = CourseAssignment
-#         fields = '__all__'
-
-# class CreateCourseAssignmentSerializer(serializers.ModelSerializer):
-#     assignment = serializers.PrimaryKeyRelatedField(queryset=Assignment.objects.all())
-#     course = serializers.PrimaryKeyRelatedField(queryset=Course.objects.all())
-    
-#     class Meta:
-#         model = CourseAssignment
-#         fields = '__all__'

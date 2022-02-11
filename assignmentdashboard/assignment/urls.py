@@ -14,7 +14,7 @@ urlpatterns = [
     path('student/getassignmentstatus/student_id/<int:student_id>/', views.get_assignment_status),
     path('getassignments/course/course_id/<int:course_id>/', views.get_assignments_one_course),
     path('student/getassignments/student_id/<int:student_id>/', views.get_assignments),
-    path('student/updateassignmentstatus/assignment_id/<int:assignment_id>/', views.update_assignment_status),
+    path('student/updateassignmentstatus/student_id/<int:student_id>/assignment_id/<int:assignment_id>/', views.update_assignment_status),
     path('educator/getcourses/educator_id/<int:educator_id>/', views.get_courses_educator),
     path('educator/getassignments/educator_id/<int:educator_id>/', views.get_assignments_educator),
     path('educator/getassignmentstatus/',views.get_assignment_status_educator),

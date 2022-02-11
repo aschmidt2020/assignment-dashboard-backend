@@ -205,9 +205,9 @@ def get_assignment_status(request, student_id):
 
 @api_view(['PUT'])
 @permission_classes([IsAuthenticated])
-def update_assignment_status(request, assignment_id):
+def update_assignment_status(request, student_id, assignment_id):
     try:
-        assignment = StudentAssignment.objects.get(assignment_id=assignment_id)
+        assignment = StudentAssignment.objects.get(student_id=student_id, assignment_id=assignment_id)
         serializer = StudentAssignmentSerializer(assignment, data=request.data)
         if serializer.is_valid():
             serializer.save()
