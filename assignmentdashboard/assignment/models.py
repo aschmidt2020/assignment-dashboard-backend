@@ -36,7 +36,7 @@ class Assignment(models.Model):
     students_viewed = models.IntegerField(default=0)
     students_in_progress = models.IntegerField(default=0)
     students_completed = models.IntegerField(default=0)
-    
+    upload_to_folder_id = models.CharField(max_length=50, default=None)
     
     def __str__(self):
         return str(self.assignment_name)
