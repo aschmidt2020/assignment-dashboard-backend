@@ -65,6 +65,24 @@ def get_all_courses(request):
     serializer = CourseSerializer(courses, many=True)
     return Response(serializer.data)
 
+@api_view(['PUT'])
+@permission_classes([IsAuthenticated])
+def save_notes(request, user_id):
+    try:
+        educator = Educator.objects.get(user_id = user_id) #ensures user is on educator table
+        serializer = EducatorSerializer(educator, data=request.data)
+        if  serializer.is_valid():
+            serializer.save(user=request.user)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    except:
+        student = Student.objects.get(user_id = user_id)
+        serializer = StudentSerializer(student, data=request.data)
+        if serializer.is_valid():
+            serializer.save(user=request.user)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 #educator features
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])

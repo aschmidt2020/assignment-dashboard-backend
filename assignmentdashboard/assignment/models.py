@@ -6,6 +6,7 @@ from django.contrib.auth.models import User
 class Student(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=False,  default=None)
     school_id = models.IntegerField(default=0)
+    notepad_text = models.TextField(default=None, null=True)
     
     def __str__(self):
         return str(self.user.id)
@@ -13,6 +14,7 @@ class Student(models.Model):
 class Educator(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=False,  default=None)
     employee_id = models.IntegerField(default=0)
+    notepad_text = models.TextField(default=None, null=True)
     
     def __str__(self):
         return str(self.user.id)
