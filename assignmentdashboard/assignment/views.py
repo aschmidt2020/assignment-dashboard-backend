@@ -69,14 +69,14 @@ def get_all_courses(request):
 @permission_classes([IsAuthenticated])
 def save_notes(request, user_id):
     try:
-        educator = Educator.objects.get(user_id = user_id) #ensures user is on educator table
+        educator = Educator.objects.get(user_id=user_id) #ensures user is on educator table
         serializer = EducatorSerializer(educator, data=request.data)
-        if  serializer.is_valid():
+        if serializer.is_valid():
             serializer.save(user=request.user)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     except:
-        student = Student.objects.get(user_id = user_id)
+        student = Student.objects.get(user_id=user_id)
         serializer = StudentSerializer(student, data=request.data)
         if serializer.is_valid():
             serializer.save(user=request.user)
