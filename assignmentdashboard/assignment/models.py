@@ -31,13 +31,13 @@ class Course(models.Model):
 class Assignment(models.Model):
     assignment_course = models.ForeignKey(Course, on_delete=models.CASCADE, null=False, default=None)
     assignment_name = models.CharField(max_length=50,  default=None)
-    assignment_desc = models.CharField(max_length=50,  default=None)
+    assignment_desc = models.TextField(default=None)
     assignment_due_date = models.DateField(max_length=50,  default=None)
     assignment_instructions = models.TextField(default=None)
     students_viewed = models.IntegerField(default=0)
     students_in_progress = models.IntegerField(default=0)
     students_completed = models.IntegerField(default=0)
-    upload_to_folder_id = models.CharField(max_length=50, default=None, null=True)
+    assignment_link = models.TextField(default=None, null=True, blank=True)
     
     def __str__(self):
         return str(self.assignment_name)
