@@ -29,7 +29,7 @@ Database Setup
             'OPTIONS': {
                 'autocommit': True
             }
-        }```
+        }
 3. Navigate to 'assignmentdashboard\assignmentdashboard' in command line and run `python manage.py migrate`
 4. Run `python manage.py createsuperuser` to generate admin profile
 
