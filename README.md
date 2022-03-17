@@ -13,8 +13,10 @@ Database Setup
 ------------
 1. In MySQL workbench create a new connection & database to hold the data
 2. Create a local_settings.py file (folder structure: 'assignmentdashboard\assignmentdashboard\local_settings.py')
+   
    local_settings.py file contents:
-   ```from django.core.management.utils import get_random_secret_key
+   ```
+    from django.core.management.utils import get_random_secret_key
 
     SECRET_KEY = get_random_secret_key
 
@@ -29,7 +31,7 @@ Database Setup
             'OPTIONS': {
                 'autocommit': True
             }
-        }```
+        }
 3. Navigate to 'assignmentdashboard\assignmentdashboard' in command line and run `python manage.py migrate`
 4. Run `python manage.py createsuperuser` to generate admin profile
 
