@@ -38,6 +38,7 @@ class Assignment(models.Model):
     students_in_progress = models.IntegerField(default=0)
     students_completed = models.IntegerField(default=0)
     assignment_link = models.TextField(default=None, null=True, blank=True)
+    assignment_archived = models.BooleanField(default=False)
     
     def __str__(self):
         return str(self.assignment_name)

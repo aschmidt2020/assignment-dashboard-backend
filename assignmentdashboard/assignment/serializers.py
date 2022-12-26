@@ -32,6 +32,17 @@ class AssignmentSerializer(serializers.ModelSerializer):
         model = Assignment
         fields = '__all__'
 
+class StudentAssignmentAndStatusSerializer(serializers.Serializer):
+    id = serializers.IntegerField()
+    assignment_name = serializers.CharField()
+    assignment_desc = serializers.CharField()
+    assignment_due_date = serializers.DateField()
+    assignment_link = serializers.CharField()
+    assignment_instructions = serializers.CharField()
+    assignment_archived = serializers.BooleanField()
+    assignment_course = CourseSerializer(many=False, read_only=True)
+    assignment_status = serializers.CharField()
+    assignment_prev_status = serializers.CharField()
 
 class CreateAssignmentSerializer(serializers.ModelSerializer):
     assignment_course = serializers.PrimaryKeyRelatedField(queryset=Course.objects.all())

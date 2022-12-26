@@ -2,6 +2,7 @@ from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
 from django.contrib.auth.password_validation import validate_password
 from django.contrib.auth.models import User
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 class RegistrationSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(required=True, validators=[
@@ -32,3 +33,15 @@ class RegistrationSerializer(serializers.ModelSerializer):
         user.save()
 
         return user
+
+class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
+    def validate(self, attrs):
+        data = super().validate(attrs)
+        refresh = self.get_token(self.user)
+        data['refresh'] = str(refresh)
+        data.pop('refresh', None) # remove refresh from the payload
+        data['access'] = str(refresh.access_token)
+
+        # Add extra responses here
+        data['is_staff'] = self.user.is_staff
+        return data

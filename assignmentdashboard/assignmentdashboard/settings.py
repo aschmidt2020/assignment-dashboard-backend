@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
     'assignment.apps.AssignmentConfig',
-    'authentication.apps.AuthenticationConfig'
+    'authentication.apps.AuthenticationConfig',
+    'celery',
 ]
 
 MIDDLEWARE = [
@@ -126,7 +127,7 @@ SIMPLE_JWT = {
     'BLACKLIST_AFTER_ROTATION': True,
 
     'ALGORITHM': 'HS256',
-    'SIGNING_KEY': 'devCodeCamp',
+    'SIGNING_KEY': 'assignmentDashboard',
     'VERIFYING_KEY': None,
     'AUDIENCE': None,
     'ISSUER': None,
@@ -145,6 +146,17 @@ SIMPLE_JWT = {
     'SLIDING_TOKEN_LIFETIME': timedelta(days=10),
     'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=20),
 }
+
+BROKER_URL = 'amqp://root:root@localhost:5672/'
+# CELERY_TIMEZONE = 'America/New_York'
+# CELERYBEAT_SCHEDULER = 'djcelery.schedulers.DatabaseScheduler'
+# CELERYBEAT_SCHEDULE = {
+#     'mark_archived_assignments_everyday': {
+#         'task': 'assignment.celery.mark_archived_assignments',
+#         'schedule': '2 * * * *',
+#         'args': (),
+#     },
+# }
 
 try:
     from assignmentdashboard.local_settings import *

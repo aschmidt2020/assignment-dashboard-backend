@@ -7,7 +7,10 @@ backend that works with **MySQL** to keep track of courses, their assignments, a
 Installation
 ------------
 1. Download zip or clone repo
-2. Run `pip install -r requirements.txt`
+2. Create virutal env (https://cpske.github.io/ISP/django/virtualenv)
+3. Activate virtualenv `. env/bin/activate`
+4. Run `pip install -r requirements.txt`
+5. Deactive virtualenv with `deactivate`
 
 Database Setup
 ------------
